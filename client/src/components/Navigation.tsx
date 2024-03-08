@@ -1,13 +1,18 @@
-import React from 'react';
+import  {useState} from "react";
+import {ModalDialog} from "./ModalDialog";
+import UserRegister from "./forms/UserRegister.tsx";
 
 const Navigation = () => {
+    const [isRegisterModalOpen, setRegisterModalOpen] = useState(false);
 
-    const login = () => {
+
+
+    const handleLoginPopup = () => {
 
     }
 
-    const register = () => {
-
+    const handleRegisterPopup = () => {
+        setRegisterModalOpen(prevState => !prevState)
     }
 
     const navigateToCompanies = () => {
@@ -16,9 +21,16 @@ const Navigation = () => {
 
     return (
         <div>
-            <button onClick={login}>login</button>
-            <button onClick={register}>register</button>
+            <button onClick={handleLoginPopup}>login</button>
+            <button onClick={handleRegisterPopup}>register</button>
             <button onClick={navigateToCompanies}>For commpanies</button>
+
+            <ModalDialog isOpen={isRegisterModalOpen} onRequestClose={handleRegisterPopup}>
+                <div>
+                   <UserRegister/>
+                    <button onClick={handleRegisterPopup}>Close</button>
+                </div>
+            </ModalDialog>
         </div>
     );
 };
