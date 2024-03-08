@@ -1,39 +1,28 @@
-import {ReactSVG} from 'react-svg'
-import home from './assets/icons/icon-home.svg'
-import Card from "./components/Card.tsx";
 import {useDispatch, useSelector} from "react-redux";
-import { useState} from "react";
-import {loginSuccess} from "./store/actions/authActions.ts";
-import {RootState} from "./store/store.ts";
+import {register} from "./store/slices/auth/registerSlice.ts";
+import {ThunkDispatch} from "redux-thunk";
+import {Action} from "redux";
+import Navigation from "./components/Navigation.tsx";
+import Card from "./components/Card.tsx";
 
 function App() {
-    const dispatch = useDispatch();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    let storedUser = useSelector((state: RootState) => state.auth.user);
+    const dispatch = useDispatch<ThunkDispatch<any, any, Action>>(); // Use ThunkDispatch
+    const {isLoading, user, isError} = useSelector((state) => state.user);
 
-    const handleLogin = () => {
-        const user = {username, email: 'example@example.com'};
-
-        dispatch(loginSuccess(user));
-        localStorage.setItem('user', JSON.stringify(user));
-        console.log(storedUser);
+    const handleRegister = () => {
+        dispatch(register());
     };
 
     return (
-        <>
-            <Card>
-                <label>Username:</label>
-                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
-                <label>Password:</label>
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-                <button onClick={handleLogin}>Login</button>
-                <p>123</p>
-                <ReactSVG src={home}/>
-            </Card>
-            <ReactSVG src={home}/>
-        </>
-    )
+        <div>
+            <Navigation/>
+            <Card><p>22</p></Card>
+            <button onClick={handleRegister}>Register</button>
+            {isLoading && <p>Loading...</p>}
+            {user && <p>User: {user.token}</p>}
+            {isError && <p>Error occurred</p>}
+        </div>
+    );
 }
 
 export default App
