@@ -7,10 +7,11 @@ import Card from "./components/Card.tsx";
 
 function App() {
     const dispatch = useDispatch<ThunkDispatch<any, any, Action>>(); // Use ThunkDispatch
+    // @ts-ignore
     const {isLoading, user, isError} = useSelector((state) => state.user);
 
     const handleRegister = () => {
-        dispatch(register());
+        dispatch(register({ email: 'ex22ample@example.com', password: '123123123' }));
     };
 
     return (

@@ -1,14 +1,21 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
+import {API_URL_REGISTER} from "../../../constants/apiConstants.ts";
 
 interface User {
     token: string
 }
 
-export const register = createAsyncThunk<User, void>("register", async () => {
-    const res = await axios.post(`http://localhost:5500/api/user/registration`, {
-        email: 'examp2le@example.com',
-        password: '123123123'
+interface UserRegisterRequest {
+    email: string
+    password: string
+}
+
+export const register =
+    createAsyncThunk<User, UserRegisterRequest>("register", async (params) => {
+    const res = await axios.post(`${API_URL_REGISTER}`, {
+        email: params.email,
+        password: params.password
     });
     console.log(res)
     return res?.data;
@@ -28,6 +35,7 @@ const registerSlice = createSlice({
         })
         builder.addCase(register.fulfilled, (state, action) => {
             state.isLoading = false;
+            // @ts-ignore
             state.user = action.payload;
         })
         builder.addCase(register.rejected, (state) => {
