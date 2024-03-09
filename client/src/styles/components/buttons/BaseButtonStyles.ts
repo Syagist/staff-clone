@@ -13,3 +13,9 @@ export const SecondaryButton = styled.button`
     padding: 10px;
     background-color: #9a2222;
 `;
+export const InputPassword = styled.button`
+    background-color: transparent;
+    position: absolute;
+    right: 0;
+    top: 0;
+`;
