@@ -1,15 +1,18 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import {useTranslation} from "react-i18next";
 
 const UserLogin = () => {
+    const { t } = useTranslation();
+
     const formik = useFormik({
         initialValues: {
             email: '',
             password: '',
         },
         validationSchema: Yup.object({
-            email: Yup.string().email('Invalid email address').required('Required'),
-            password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
+            email: Yup.string().email(t('validation_invalid_email_text')).required(t('validation_required_text')),
+            password: Yup.string().min(6, t('validation_invalid_password_text')).required(t('validation_required_text')),
                    }),
         onSubmit: (values) => {
             // Handle form submission logic here

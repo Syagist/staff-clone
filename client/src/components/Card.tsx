@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const StyledDiv = styled.div`
+const CardStyle = styled.div`
     color: #333;
     font-size: 16px;
     padding: 10px;
@@ -14,9 +14,9 @@ interface CardProps {
 
 const Card = ({children}: CardProps) => {
     return (
-        <StyledDiv>
+        <CardStyle>
             {children}
-        </StyledDiv>
+        </CardStyle>
     );
 };
 

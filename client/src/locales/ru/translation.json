@@ -1,3 +1,5 @@
 {
-  "homeTitle": "Home!"
+  "login_text": "Login",
+  "register_text": "Register",
+  "close_text": "Close"
 }

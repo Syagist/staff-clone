@@ -1,3 +1,13 @@
 {
-  "homeTitle": "Home!"
+  "login_text": "Login",
+  "register_text": "Register",
+  "close_text": "Close",
+  "for_companies_text": "For companies",
+  "validation_required_text": "Required",
+  "validation_invalid_email_text": "Invalid email address",
+  "validation_invalid_password_text": "Password must be at least 6 characters",
+  "validation_passwords_not_match": "Passwords do not match",
+  "validation_invalid_email_text": "",
+  "validation_invalid_email_text": "",
+  "validation_invalid_email_text": ""
 }
