@@ -2,26 +2,27 @@ import React from "react";
 import {PrimaryButton, SecondaryButton, InputPassword} from "@/styles/components/buttons/BaseButtonStyles.ts";
 
 interface BaseButtonProps {
-    type?: 'primary' | 'secondary' | 'input-password'
+    btnType?: 'primary' | 'secondary' | 'input-password'
+    type?: 'button' | 'submit'
     children: React.ReactNode;
-    onClick: () => void
+    onClick?: () => void
 }
 
-const BaseButton = ({type, children, onClick}: BaseButtonProps) => {
+const BaseButton = ({btnType, type,children, onClick}: BaseButtonProps) => {
     let button;
 
-    switch (type) {
+    switch (btnType) {
         case 'primary':
-            button = <PrimaryButton onClick={onClick}>{children}</PrimaryButton>;
+            button = <PrimaryButton type={type} onClick={onClick}>{children}</PrimaryButton>;
             break;
         case 'secondary':
-            button = <SecondaryButton onClick={onClick}>{children}</SecondaryButton>;
+            button = <SecondaryButton type={type} onClick={onClick}>{children}</SecondaryButton>;
             break;
         case 'input-password':
-            button = <InputPassword type='button' onClick={onClick}>{children}</InputPassword>;
+            button = <InputPassword  type='button' onClick={onClick}>{children}</InputPassword>;
             break;
         default:
-            button = <PrimaryButton onClick={onClick}>{children}</PrimaryButton>;
+            button = <PrimaryButton type={type} onClick={onClick}>{children}</PrimaryButton>;
     }
     return (
        <> {button} </>

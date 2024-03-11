@@ -1,51 +1,34 @@
-import {useReducer} from "react";
-import {ModalDialog} from "./ModalDialog";
-import UserRegister from "./forms/UserRegister.tsx";
-import BaseButton from "./buttos/BaseButton.tsx";
-import {CLOSE_LOGIN, CLOSE_REGISTER, modalReducer, OPEN_LOGIN, OPEN_REGISTER} from "@/reducers/modalReducer.ts";
-import UserLogin from "@/components/forms/UserLogin.tsx";
-import {useTranslation} from "react-i18next";
+    import {useTranslation} from "react-i18next";
+    import {useDispatch, useSelector} from "react-redux";
+    import {ThunkDispatch} from "redux-thunk";
+    import {Action} from "redux";
+    import {CLOSE_LOGIN, CLOSE_REGISTER, OPEN_LOGIN, OPEN_REGISTER} from "@/store/reducers/modalReducer.ts";
 
-const Navigation = () => {
-    const initialState = {registerIsOpen: false, loginIsOpen: false};
-    const [state, dispatch] = useReducer(modalReducer, initialState);
-    const { t } = useTranslation();
+    const Navigation = () => {
+        const {t} = useTranslation();
+        const dispatch = useDispatch<ThunkDispatch<any, any, Action>>();
+        // @ts-ignore
+        const { loginIsOpen, registerIsOpen } = useSelector(state => state.modal);
 
-    const handleLoginPopup = () => {
-        state.loginIsOpen ? dispatch({type: CLOSE_LOGIN}) : dispatch({type: OPEN_LOGIN})
-    }
+        const handleLoginPopup = () => {
+            loginIsOpen ? dispatch({type: CLOSE_LOGIN}) : dispatch({type: OPEN_LOGIN})
+        }
 
-    const handleRegisterPopup = () => {
-        state.registerIsOpen ? dispatch({type: CLOSE_REGISTER}) : dispatch({type: OPEN_REGISTER})
-    }
+        const handleRegisterPopup = () => {
+            registerIsOpen ? dispatch({type: CLOSE_REGISTER}) : dispatch({type: OPEN_REGISTER})
+        }
 
-    const navigateToCompanies = () => {
+        const navigateToCompanies = () => {
 
-    }
+        }
 
-    return (
-        <div>
-            <button onClick={handleLoginPopup}>{t('login_text')}</button>
-            <button onClick={handleRegisterPopup}>{t('register_text')}</button>
-            <button onClick={navigateToCompanies}>{t('for_companies_text')}</button>
-            <ModalDialog isOpen={state.loginIsOpen} onRequestClose={handleLoginPopup}>
-                <div>
-                    <UserLogin/>
-                    <button onClick={handleLoginPopup}>Close</button>
-                    <BaseButton type='primary' onClick={handleLoginPopup}>{t('login_text')}</BaseButton>
-                    <BaseButton type='secondary' onClick={handleLoginPopup}>{t('register_text')}</BaseButton>
-                </div>
-            </ModalDialog>
-            <ModalDialog isOpen={state.registerIsOpen} onRequestClose={handleRegisterPopup}>
-                <div>
-                    <UserRegister/>
-                    <button onClick={handleRegisterPopup}>{t('close_text')}</button>
-                    <BaseButton type='primary' onClick={handleRegisterPopup}>asdasd</BaseButton>
-                    <BaseButton type='secondary' onClick={handleRegisterPopup}>asdasd</BaseButton>
-                </div>
-            </ModalDialog>
-        </div>
-    );
-};
+        return (
+            <div>
+                <button onClick={handleLoginPopup}>{t('login_text')}</button>
+                <button onClick={handleRegisterPopup}>{t('register_text')}</button>
+                <button onClick={navigateToCompanies}>{t('for_companies_text')}</button>
+            </div>
+        );
+    };
 
-export default Navigation;
+    export default Navigation;
