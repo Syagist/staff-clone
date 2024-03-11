@@ -26,13 +26,12 @@ const PasswordInput = ({type, id, label, name, formik, formikSelector}: TextInpu
     return (
         <TextInput id={id} label={label} name={name} formik={formik} type={passwordType}
                    formikSelector={formikSelector}>
-            <BaseButton type='input-password' onClick={togglePassword}>
+            <BaseButton btnType='input-password' onClick={togglePassword}>
                 {passwordType === 'password' ?
                     <StyledSVG className='password-icon' src={eyeOff} /> :
                     <StyledSVG className='password-icon' src={eye} />
                 }
             </BaseButton>
-
         </TextInput>
     );
 };

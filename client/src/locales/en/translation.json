@@ -3,11 +3,17 @@
   "register_text": "Register",
   "close_text": "Close",
   "for_companies_text": "For companies",
+  "auth_retype_password": "Repeat Password",
+  "auth_login_title": "Login to send your CV to employer",
+  "auth_register_title": "Repeat Password",
   "validation_required_text": "Required",
   "validation_invalid_email_text": "Invalid email address",
   "validation_invalid_password_text": "Password must be at least 6 characters",
   "validation_passwords_not_match": "Passwords do not match",
-  "validation_invalid_email_text": "",
-  "validation_invalid_email_text": "",
-  "validation_invalid_email_text": ""
+  "base_user_name": "Name",
+  "base_user_email": "Email",
+  "base_user_password": "Password",
+  "base_user_phone": "Phone",
+  "base_user_address": "Address",
+  "validation_company": "Company"
 }

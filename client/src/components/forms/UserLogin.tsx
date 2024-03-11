@@ -7,8 +7,10 @@ import {Action} from "redux";
 import TextInput from "@/components/inputs/TextInput.tsx";
 import PasswordInput from "@/components/inputs/PasswordInput.tsx";
 import BaseButton from "@/components/buttos/BaseButton.tsx";
-import {CLOSE_LOGIN, OPEN_LOGIN} from "@/store/reducers/modalReducer.ts";
-
+import {CLOSE_LOGIN, CLOSE_REGISTER, OPEN_LOGIN, OPEN_REGISTER} from "@/store/reducers/modalReducer.ts";
+import {StyledSVG} from "@/styles/GlobalStyles.ts";
+import close from "@/assets/icons/close-svgrepo-com.svg";
+import eye from "@/assets/icons/eye-svgrepo-com.svg";
 
 const UserLogin = () => {
     const {t} = useTranslation();
@@ -37,16 +39,20 @@ const UserLogin = () => {
     const handleClose = () => {
         loginIsOpen ? dispatch({type: CLOSE_LOGIN}) : dispatch({type: OPEN_LOGIN})
     }
-
+    const openRegister = () => {
+        dispatch({type: CLOSE_LOGIN})
+        dispatch({type: OPEN_REGISTER})
+    }
     return (
         <form onSubmit={formik.handleSubmit}>
             <TextInput id='email' label='Email' name="email" formik={formik} type="text" formikSelector='email'/>
             <PasswordInput id='password' label='Password' name="password" formik={formik} type="password"
                            formikSelector='password'/>
             <BaseButton type='submit' btnType='primary'>{t('login_text')}</BaseButton>
-            <BaseButton type='button' btnType='secondary' onClick={() => {
-            }}>{t('register_text')}</BaseButton>
-            <BaseButton type='button' btnType='secondary' onClick={handleClose}>{t('close')}</BaseButton>
+            <BaseButton type='button' btnType='secondary' onClick={openRegister}>{t('register_text')}</BaseButton>
+            <BaseButton type='button' btnType='close' onClick={handleClose}>
+                <StyledSVG className='close' src={close} />
+            </BaseButton>
         </form>
     );
 };

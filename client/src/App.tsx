@@ -14,7 +14,6 @@ function App() {
     const {isLoading, user, isError} = useSelector((state) => state.user);
 
     const handleRegister = () => {
-        dispatch(register({ email: 'ex22ample@example.com', password: '123123123' }));
     };
 
     return (

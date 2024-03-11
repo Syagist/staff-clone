@@ -1,9 +1,23 @@
-import { useFormik } from 'formik';
+import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {useTranslation} from "react-i18next";
+import {Action} from "redux";
+import {useDispatch, useSelector} from "react-redux";
+import {ThunkDispatch} from "redux-thunk";
+import TextInput from "@/components/inputs/TextInput.tsx";
+import BaseButton from "@/components/buttos/BaseButton.tsx";
+import {ActionItemStyles, ActionRowStyles, StyledSVG} from "@/styles/GlobalStyles.ts";
+import close from "@/assets/icons/close-svgrepo-com.svg";
+import {CLOSE_REGISTER, OPEN_LOGIN, OPEN_REGISTER} from "@/store/reducers/modalReducer.ts";
+import PasswordInput from "@/components/inputs/PasswordInput.tsx";
+import {TitleT2} from "@/styles/components/texts/Titles.ts";
+import {register} from "@/store/slices/auth/registerSlice.ts";
 
 const UserRegister = () => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
+    const dispatch = useDispatch<ThunkDispatch<any, any, Action>>();
+    // @ts-ignore
+    const {registerIsOpen} = useSelector(state => state.modal);
 
     const formik = useFormik({
         initialValues: {
@@ -21,73 +35,64 @@ const UserRegister = () => {
                 .required(t('validation_required_text')),
         }),
         onSubmit: (values) => {
-            // Handle form submission logic here
-            console.log(values);
+            dispatch(register({ email: values.email, password: values.password }));
         },
     });
 
+    const handleRegisterPopup = () => {
+        registerIsOpen ? dispatch({type: CLOSE_REGISTER}) : dispatch({type: OPEN_REGISTER})
+    }
+    const openLogin = () => {
+        dispatch({type: CLOSE_REGISTER})
+        dispatch({type: OPEN_LOGIN})
+    }
+
     return (
-        <form onSubmit={formik.handleSubmit}>
-            <div>
-                <label htmlFor="username">Username</label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.username}
-                />
-                {formik.touched.username && formik.errors.username && (
-                    <div>{formik.errors.username}</div>
-                )}
-            </div>
+        <>
+            <TitleT2>{t('auth_login_title')}</TitleT2>
+            <form onSubmit={formik.handleSubmit}>
+                <TextInput id='username'
+                           label={t('base_user_name')}
+                           name="username"
+                           formik={formik}
+                           type="text"
+                           formikSelector='username'/>
 
-            <div>
-                <label htmlFor="email">Email</label>
-                <input
-                    type="text"
-                    id="email"
-                    name="email"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.email}
-                />
-                {formik.touched.email && formik.errors.email && <div>{formik.errors.email}</div>}
-            </div>
+                <TextInput id='email'
+                           label={t('base_user_email')}
+                           name="email"
+                           formik={formik}
+                           type="email"
+                           formikSelector='email'/>
 
-            <div>
-                <label htmlFor="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.password}
-                />
-                {formik.touched.password && formik.errors.password && (
-                    <div>{formik.errors.password}</div>
-                )}
-            </div>
+                <PasswordInput id='password'
+                               label={t('base_user_password')}
+                               name="password"
+                               formik={formik}
+                               type="password"
+                               formikSelector='password'/>
 
-            <div>
-                <label htmlFor="confirmPassword">Confirm Password</label>
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.confirmPassword}
-                />
-                {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-                    <div>{formik.errors.confirmPassword}</div>
-                )}
-            </div>
+                <PasswordInput id='confirmPassword'
+                               label={t('auth_retype_password')}
+                               name="confirmPassword"
+                               formik={formik}
+                               type="password"
+                               formikSelector='confirmPassword'/>
 
-            <button type="submit">Register</button>
-        </form>
+                <ActionRowStyles>
+                    <ActionItemStyles>
+                        <BaseButton type='submit' btnType='primary'>{t('register_text')}</BaseButton>
+                    </ActionItemStyles>
+                    <ActionItemStyles>
+                        <BaseButton type='button' btnType='secondary' onClick={openLogin}>{t('login_text')}</BaseButton>
+                    </ActionItemStyles>
+                </ActionRowStyles>
+                <BaseButton type='button' btnType='close' onClick={handleRegisterPopup}>
+                    <StyledSVG className='close' src={close}/>
+                </BaseButton>
+            </form>
+
+        </>
     );
 };
 

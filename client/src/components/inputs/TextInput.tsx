@@ -1,8 +1,13 @@
 import React from "react";
-import {TextInputStyles} from "@/styles/components/inputs/TextInputStyles.ts";
+import {
+    TextInputChildrenStyles, TextInputErrorStyles,
+    TextInputLabelStyles,
+    TextInputStyles,
+    TextInputWrapperStyles
+} from "@/styles/components/inputs/TextInputStyles.ts";
 
 interface TextInputProps {
-    type?: 'text' | 'password';
+    type?: 'text' | 'password' | 'email';
     id: string;
     label: string;
     name: string;
@@ -13,21 +18,26 @@ interface TextInputProps {
 
 const TextInput = ({type, id, label, name, children, formik, formikSelector}: TextInputProps) => {
     return (
-        <div>
-            <label htmlFor={id}>{label}</label>
-            <TextInputStyles
-                type={type}
-                id={id}
-                name={name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values[formikSelector]}
-            />
+        <TextInputWrapperStyles>
+            <TextInputLabelStyles htmlFor={id}>{label}</TextInputLabelStyles>
+            <TextInputChildrenStyles>
+                <TextInputStyles
+                    type={type}
+                    id={id}
+                    placeholder={label}
+                    name={name}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values[formikSelector]}
+                />
+                {children}
+            </TextInputChildrenStyles>
+
             {formik.touched[formikSelector] && formik.errors[formikSelector] && (
-                <div>{formik.errors[formikSelector]}</div>
+                <TextInputErrorStyles>{formik.errors[formikSelector]}</TextInputErrorStyles>
             )}
-            {children}
-        </div>
+
+        </TextInputWrapperStyles>
     );
 };
 

@@ -1,8 +1,13 @@
 import React from "react";
-import {PrimaryButton, SecondaryButton, InputPassword} from "@/styles/components/buttons/BaseButtonStyles.ts";
+import {
+    PrimaryButton,
+    SecondaryButton,
+    InputPassword,
+    ClosePassword
+} from "@/styles/components/buttons/BaseButtonStyles.ts";
 
 interface BaseButtonProps {
-    btnType?: 'primary' | 'secondary' | 'input-password'
+    btnType?: 'primary' | 'secondary' | 'input-password'| 'close'
     type?: 'button' | 'submit'
     children: React.ReactNode;
     onClick?: () => void
@@ -20,6 +25,9 @@ const BaseButton = ({btnType, type,children, onClick}: BaseButtonProps) => {
             break;
         case 'input-password':
             button = <InputPassword  type='button' onClick={onClick}>{children}</InputPassword>;
+            break;
+        case 'close':
+            button = <ClosePassword  type='button' onClick={onClick}>{children}</ClosePassword>;
             break;
         default:
             button = <PrimaryButton type={type} onClick={onClick}>{children}</PrimaryButton>;
