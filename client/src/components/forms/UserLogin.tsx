@@ -7,10 +7,10 @@ import {Action} from "redux";
 import TextInput from "@/components/inputs/TextInput.tsx";
 import PasswordInput from "@/components/inputs/PasswordInput.tsx";
 import BaseButton from "@/components/buttos/BaseButton.tsx";
-import {CLOSE_LOGIN, CLOSE_REGISTER, OPEN_LOGIN, OPEN_REGISTER} from "@/store/reducers/modalReducer.ts";
-import {StyledSVG} from "@/styles/GlobalStyles.ts";
+import {CLOSE_LOGIN, OPEN_LOGIN, OPEN_REGISTER} from "@/store/reducers/modalReducer.ts";
+import {ActionItemStyles, ActionRowStyles, StyledSVG} from "@/styles/GlobalStyles.ts";
 import close from "@/assets/icons/close-svgrepo-com.svg";
-import eye from "@/assets/icons/eye-svgrepo-com.svg";
+import {login} from "@/store/slices/auth/loginSlice.ts";
 
 const UserLogin = () => {
     const {t} = useTranslation();
@@ -31,8 +31,8 @@ const UserLogin = () => {
         }),
 
         onSubmit: (values) => {
-            // Handle form submission logic here
-            console.log(values);
+            dispatch(login({ email: values.email, password: values.password }));
+
         },
     });
 
@@ -48,8 +48,17 @@ const UserLogin = () => {
             <TextInput id='email' label='Email' name="email" formik={formik} type="text" formikSelector='email'/>
             <PasswordInput id='password' label='Password' name="password" formik={formik} type="password"
                            formikSelector='password'/>
-            <BaseButton type='submit' btnType='primary'>{t('login_text')}</BaseButton>
-            <BaseButton type='button' btnType='secondary' onClick={openRegister}>{t('register_text')}</BaseButton>
+
+            <ActionRowStyles>
+                <ActionItemStyles>
+                    <BaseButton type='submit' btnType='primary'>{t('login_text')}</BaseButton>
+                </ActionItemStyles>
+                <ActionItemStyles>
+                    <BaseButton type='button' btnType='secondary' onClick={openRegister}>{t('register_text')}</BaseButton>
+                </ActionItemStyles>
+            </ActionRowStyles>
+
+
             <BaseButton type='button' btnType='close' onClick={handleClose}>
                 <StyledSVG className='close' src={close} />
             </BaseButton>

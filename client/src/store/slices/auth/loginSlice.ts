@@ -1,10 +1,10 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
-import {API_URL_REGISTER} from "@/constants/apiConstants.ts";
+import {API_URL_LOGIN} from "@/constants/apiConstants.ts";
 
-export const register =
-    createAsyncThunk<User, UserRegisterRequest>("register", async (params) => {
-    const res = await axios.post(`${API_URL_REGISTER}`, {
+export const login =
+    createAsyncThunk<User, UserLoginRequest>("login", async (params) => {
+    const res = await axios.post(`${API_URL_LOGIN}`, {
         email: params.email,
         password: params.password
     });
@@ -12,8 +12,8 @@ export const register =
     return res?.data;
 });
 
-const registerSlice = createSlice({
-    name: "register",
+const loginSlice = createSlice({
+    name: "login",
     initialState: {
         isLoading: false,
         user: null,
@@ -21,18 +21,18 @@ const registerSlice = createSlice({
     },
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(register.pending, (state) => {
+        builder.addCase(login.pending, (state) => {
             state.isLoading = true;
         })
-        builder.addCase(register.fulfilled, (state, action) => {
+        builder.addCase(login.fulfilled, (state, action) => {
             state.isLoading = false;
             // @ts-ignore
             state.user = action.payload;
         })
-        builder.addCase(register.rejected, (state) => {
+        builder.addCase(login.rejected, (state) => {
             state.isError = true;
         })
     }
 });
 
-export default registerSlice;
+export default loginSlice;

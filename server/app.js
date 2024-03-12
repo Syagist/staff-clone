@@ -5,6 +5,7 @@ const sequelize = require('./db')
 const cors = require('cors')
 const {resolve} = require("path");
 const router= require('./routes/index')
+const errorHandler = require('./error/errorHandler');
 
 const PORT = process.env.PORT || 5000;
 
@@ -14,7 +15,7 @@ app.use(express.json())
 app.use(express.static(resolve(__dirname, 'static')))
 app.use(fileUpload({}))
 app.use('/api', router)
-
+app.use(errorHandler);
 
 const start = async () => {
     try {
